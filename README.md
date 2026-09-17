@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # bds_second_assignment
 =======
 # When Should I Use Electricity?
