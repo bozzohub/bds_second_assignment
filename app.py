@@ -1,11 +1,3 @@
-"""
-When Should I Use Electricity?
-Simple Streamlit app for the BDS "From Data to App" assignment.
-
-Run with:
-    python -m streamlit run app.py
-"""
-
 from datetime import date
 
 import pandas as pd
@@ -13,10 +5,6 @@ import plotly.express as px
 import requests
 import streamlit as st
 
-
-# -------------------------------------------------------------------
-# PAGE SETUP
-# -------------------------------------------------------------------
 st.set_page_config(
     page_title="When Should I Use Electricity?",
     page_icon="⚡",
@@ -25,8 +13,6 @@ st.set_page_config(
 
 API_URL = "https://api.energy-charts.info/price"
 
-# Public day-ahead bidding zones used in this app.
-# Keeping prices in EUR/MWh gives every market one comparable unit.
 MARKETS = {
     "DK1": {
         "label": "Denmark — DK1 (West)",
@@ -90,8 +76,7 @@ MARKETS = {
     },
 }
 
-# These are intentionally simple example presets.
-# The user can always change the number manually.
+
 APPLIANCE_PRESETS = {
     "EV charging": 20.0,
     "Dishwasher": 1.2,
@@ -101,9 +86,6 @@ APPLIANCE_PRESETS = {
 }
 
 
-# -------------------------------------------------------------------
-# HELPERS
-# -------------------------------------------------------------------
 def euro(value):
     """Readable euro formatting, including very small or negative values."""
     if abs(value) < 0.01:
@@ -120,9 +102,8 @@ def time_window(timestamp, minutes):
     )
 
 
-# -------------------------------------------------------------------
 # API
-# -------------------------------------------------------------------
+
 @st.cache_data(ttl=900)
 def load_today(zone, local_day):
     """
@@ -223,9 +204,8 @@ def load_today(zone, local_day):
     )
 
 
-# -------------------------------------------------------------------
-# HEADER / STORY
-# -------------------------------------------------------------------
+# header
+
 st.title("⚡ When should I use electricity?")
 
 st.markdown(
@@ -286,9 +266,9 @@ with st.sidebar:
     )
 
 
-# -------------------------------------------------------------------
-# CURRENT LOCAL DATE / TIME
-# -------------------------------------------------------------------
+
+# DATE
+
 timezone = (
     MARKETS[selected_zone]["timezone"]
 )
@@ -300,9 +280,7 @@ now_local = pd.Timestamp.now(
 today_local = now_local.date()
 
 
-# -------------------------------------------------------------------
-# LOAD TODAY'S DATA
-# -------------------------------------------------------------------
+# Load data
 try:
 
     with st.spinner(
@@ -350,10 +328,8 @@ if today_df.empty:
     st.stop()
 
 
-# -------------------------------------------------------------------
-# IDENTIFY CURRENT AND REMAINING INTERVALS
-# -------------------------------------------------------------------
-# Estimate the interval length from the actual API timestamps.
+# interval length from api
+
 time_differences = (
     today_df["timestamp"]
     .sort_values()
@@ -372,15 +348,14 @@ else:
         )
     )
 
-# API timestamps mark the beginning of their pricing interval.
+# beginning of their pricing interval.
 started_intervals = today_df[
     today_df["timestamp"] <= now_local
 ]
 
 if started_intervals.empty:
 
-    # This is unusual, but lets the app fail gracefully before the
-    # first pricing timestamp of the day.
+    
     current_row = (
         today_df.iloc[0]
     )
@@ -427,9 +402,8 @@ cheapest_price = float(
 )
 
 
-# -------------------------------------------------------------------
-# COST CALCULATIONS
-# -------------------------------------------------------------------
+# Cost calc
+
 current_cost = (
     energy_kwh
     * current_price
@@ -455,10 +429,7 @@ cheapest_price_kwh = (
     cheapest_price / 1000
 )
 
-
-# -------------------------------------------------------------------
-# DECISION SUMMARY
-# -------------------------------------------------------------------
+#
 st.caption(
     f"{MARKETS[selected_zone]['label']} · "
     f"{now_local:%A, %d %B %Y · %H:%M} local time"
@@ -509,7 +480,6 @@ m4.metric(
 )
 
 
-# A simple everyday interpretation.
 if cheapest_start == current_start:
 
     st.success(
@@ -544,9 +514,7 @@ else:
         )
 
 
-# -------------------------------------------------------------------
-# ONE CLEAR VISUALIZATION
-# -------------------------------------------------------------------
+
 st.subheader("Today's electricity price")
 
 plot_df = today_df.copy()
@@ -568,7 +536,7 @@ fig = px.line(
     },
 )
 
-# Mark the current pricing interval.
+
 fig.add_scatter(
     x=[current_start],
     y=[current_price],
@@ -578,7 +546,6 @@ fig.add_scatter(
     textposition="top center",
 )
 
-# Mark the cheapest remaining interval.
 if cheapest_start != current_start:
 
     fig.add_scatter(
@@ -609,9 +576,7 @@ st.plotly_chart(
 )
 
 
-# -------------------------------------------------------------------
-# OPTIONAL DETAIL
-# -------------------------------------------------------------------
+
 with st.expander(
     "See today's price data"
 ):
@@ -676,9 +641,7 @@ st.download_button(
 )
 
 
-# -------------------------------------------------------------------
-# LIMITATION / SOURCE
-# -------------------------------------------------------------------
+# Limitations
 st.divider()
 
 st.caption(
