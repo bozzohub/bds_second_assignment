@@ -1,4 +1,8 @@
+## Target audience
 The target audience for this application is an average household that owns some of the larger electrical appliances, such as a dishwasher, washing machine, and tumble dryer.
+ 
 Furthermore, the application is also aimed at the growing number of people who own an electric vehicle.
+ 
 Through this application and the API we have found, we want to create opportunities for people to plan their electricity consumption based on when electricity prices are lower.
-We believe this will be of interest to users of the application because it gives them the opportunity to save a significant amount of money by, for example, waiting one or two hours before using an appliance or charging their electric vehicle. Alternatively, they can plan their electricity consumption around the times when electricity prices are at their lowest.
+ 
+We believe this will be of interest to users of the application because it gives them the opportunity to save a significant amount of money by, for example, waiting one or two hours before using an appliance or charging their electric vehicle. Alternatively, they can plan their electricity consumption around the times when electricity prices are at their lowest. 
