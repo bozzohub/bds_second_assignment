@@ -42,19 +42,6 @@ Prices are supplied in EUR/MWh and converted to EUR/kWh for the household cost e
  
 The estimated cost represents only the wholesale electricity component. It does not include grid tariffs, taxes, VAT, supplier charges, or the details of a household electricity contract.
  
-## Run locally
- 
-Install the dependencies:
- 
-```bash
-pip install -r requirements.txt
-```
- 
-Run the app:
- 
-```bash
-python -m streamlit run app.py
-```
  
 ## AI and tools used
  
