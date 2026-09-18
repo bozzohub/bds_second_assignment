@@ -1,6 +1,4 @@
-<<<<<<< HEAD
 # bds_second_assignment
-=======
 # When Should I Use Electricity?
  
 A simple Streamlit app that helps households and EV owners decide whether to use electricity now or wait for a cheaper time.
@@ -71,4 +69,3 @@ python -m streamlit run app.py
 - `app.py` — Streamlit application
 - `requirements.txt` — Python dependencies
 - `README.md` — project description
->>>>>>> 3949733 (Initial electricity price Streamlit app)
